@@ -1,3 +1,4 @@
+import axios from 'axios';
 import { useEffect, useState } from 'react';
 
 const useAuthCheck = () => {
@@ -7,10 +8,10 @@ const useAuthCheck = () => {
   useEffect(() => {
     const checkAuth = async () => {
       try {
-        const response = await fetch('http://localhost:8080/api/v1/auth/check', {
-          method: 'GET',
-        });
-        if (response.ok) {
+        const response = await axios.get('/api/v1/auth/check', { withCredentials: true });
+
+        // Check the status property
+        if (response.status === 200) {
           setIsAuthenticated(true);
         } else {
           setIsAuthenticated(false);

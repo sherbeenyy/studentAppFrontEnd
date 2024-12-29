@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
+import axiosInstance from '../src/axiosConfig';
 
 
 const Container = styled.div`
@@ -88,25 +89,19 @@ const LoginCard = () => {
 
     try {
       const url = selected === 'parent'
-        ? 'http://localhost:8080/api/v1/auth/authenticateParent'
-        : 'http://localhost:8080/api/v1/auth/authenticateStudent';
+        ? '/api/v1/auth/authenticateParent'
+        : '/api/v1/auth/authenticateStudent';
 
-      const response = await fetch(url, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(data),
-        credentials: 'include'
-      });
-      if (response.status === 202) {
-        console.log(response)
-        console.log('Login successful');
-        navigate('/dashboard');
-      } else {
-        console.error('Login failed');
-        
-      }
+        const response = await axiosInstance.post(url, {
+          email,
+          password,
+        })
+        if (response.status === 202) {
+          console.log('Success:', response);
+          navigate('/dashboard');
+        } else {
+          console.error('Error:', response);
+        }
     } catch (error) {
       console.error('Error:', error);
     }

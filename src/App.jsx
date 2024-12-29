@@ -1,7 +1,8 @@
-import { useState } from 'react';
+import React from 'react';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import LandingPage from '../pages/LandingPage';
 import Dashboard from '../pages/Dashboard';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import ProtectedRoute from '../components/ProtectedRoute';
 import './assets/styles/App.css';
 
 function App() {
@@ -9,7 +10,7 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<LandingPage />} />
-        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
       </Routes>
     </BrowserRouter>
   );

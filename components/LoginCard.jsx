@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
+
 
 const Container = styled.div`
   display: flex;
@@ -71,6 +73,44 @@ const SwitchButton = styled.button`
 
 const LoginCard = () => {
   const [selected, setSelected] = useState('student');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const navigate = useNavigate();
+
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const data = {
+      email: email,
+      password: password
+    };
+
+    try {
+      const url = selected === 'parent'
+        ? 'http://localhost:8080/api/v1/auth/authenticateParent'
+        : 'http://localhost:8080/api/v1/auth/authenticateStudent';
+
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data),
+        credentials: 'include'
+      });
+      if (response.status === 202) {
+        console.log(response)
+        console.log('Login successful');
+        navigate('/dashboard');
+      } else {
+        console.error('Login failed');
+        
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  };
 
   return (
     <Container>
@@ -92,17 +132,34 @@ const LoginCard = () => {
         </SwitchButton>
       </SwitchContainer>
       <h5>{selected === 'parent' ? 'Login as a Parent' : 'Login as a Student'}</h5>
-      <InputContainer>
-        <Label>Email:</Label>
-        <Input type="text" placeholder="Email" required />
-      </InputContainer>
-      <InputContainer>
-        <Label>Password:</Label>
-        <Input type="password" placeholder="Password" required />
-      </InputContainer>
-      <Button type="submit">Login</Button>
+      <form onSubmit={handleSubmit}>
+        <InputContainer>
+          <Label>Email:</Label>
+          <Input
+            type="text"
+            placeholder="Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
+        </InputContainer>
+        <InputContainer>
+          <Label>Password:</Label>
+          <Input
+            type="password"
+            placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
+        </InputContainer>
+        <Button type="submit">Login</Button>
+      </form>
     </Container>
   );
-}
+};
 
 export default LoginCard;
+
+
+

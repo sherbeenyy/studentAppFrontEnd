@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 const Container = styled.div`
     display: flex;
-    width: 300px;
+    width: 400px;
     justify-content: center;
     align-items: center;
     flex-direction: column;
@@ -21,7 +21,7 @@ const Paragraph = styled.p`
     color: #333;
     `
 
-const CarInfo = ()=>{
+const DriversInfo = ()=>{
     return (
         <>
         <Container> 
@@ -32,4 +32,4 @@ const CarInfo = ()=>{
         </>
     )
 }
-export default CarInfo;
+export default DriversInfo;

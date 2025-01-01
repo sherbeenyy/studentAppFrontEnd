@@ -1,51 +1,61 @@
-import axios from "axios";
-import axiosInstance from "../src/axiosConfig";
-import { useNavigate } from 'react-router-dom';
-import { useEffect, useState } from "react";
+import React from 'react';
+import styled from 'styled-components';
 import CarInfo from "../components/CarInfo";
 import DriversInfo from "../components/DriversInfo";
 import Path from "../components/Path";
+import StudentsinBus from "../components/StudentsinBus";
+
+const DashboardContainer = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: auto 1fr;
+  gap: 20px;
+  padding: 20px;
+  height: 100vh;
+  width: 100vw;
+  box-sizing: border-box;
+`;
+
+const GridSection = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+`;
+
+const UpperLeft = styled(GridSection)`
+  grid-column: 1 / 2;
+  grid-row: 1 / 2;
+`;
+
+const UpperRight = styled(GridSection)`
+  grid-column: 2 / 3;
+  grid-row: 1 / 2;
+  flex-direction: column;
+  gap: 20px;
+`;
+
+const Bottom = styled(GridSection)`
+  grid-column: 1 / 3;
+  grid-row: 2 / 3;
+`;
 
 const Dashboard = () => {
-  const navigate = useNavigate();
-  const [loading, setLoading] = useState(true);
-
-  // useEffect(() => {
-  //   const checkAuth = async () => {
-  //     try {
-  //       const res = await axiosInstance.get('/api/v1/auth/check');
-  //       if (res.status === 200) {
-  //         console.log('User is authenticated');
-  //       } else {
-  //         navigate('/');
-  //       }
-  //     } catch (error) {
-  //       navigate('/');
-  //     } finally {
-  //       setLoading(false);
-  //     }
-  //   };
-
-  //   checkAuth();
-  // }, [navigate]);
-
-  // const logout = async () => {
-  //   try {
-  //     await axiosInstance.get('/api/v1/auth/logout');
-  //     navigate('/');
-  //   } catch (error) {
-  //     console.error('Error logging out:', error);
-  //   }
-  // };
-
-  // if (loading) {
-  //   return <div>Loading...</div>;
-  // }
   return (
-    <div>
-      
-      <Path/>
-    </div>
+    <DashboardContainer>
+      <UpperLeft>
+        <StudentsinBus />
+      </UpperLeft>
+      <UpperRight>
+        <DriversInfo />
+        <CarInfo />
+      </UpperRight>
+      <Bottom>
+        <Path />
+      </Bottom>
+    </DashboardContainer>
   );
 };
 
